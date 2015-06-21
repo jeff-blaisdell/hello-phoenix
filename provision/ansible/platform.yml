@@ -1,0 +1,11 @@
+- hosts: all
+  sudo: True
+  roles:
+  - role: ANXS.mysql
+    mysql_port: 3306
+    mysql_bind_address: "0.0.0.0"
+    mysql_root_password: 'password'
+    mysql_databases:
+    - {name: phoenix}
+    mysql_users:
+    - {name: phoenix_user, pass: password, host: "%", priv: "*.*:ALL"}

@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = "ubuntu/trusty64"
+
+  config.vm.define "local", primary: true do |local|
+	local.vm.provider "virtualbox" do |v|
+	  v.memory = 3048
+	  v.cpus = 2
+	end
+	local.vm.network :private_network, ip: "192.168.70.4"
+
+	local.vm.hostname = "local.vagrant"
+
+	local.vm.provision :ansible do |a|
+	  a.playbook = "ansible/platform.yml"
+	  a.verbose = "vv"
+	  a.limit = "local"
+	end
+  end
+end
